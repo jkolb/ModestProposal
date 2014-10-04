@@ -25,51 +25,7 @@
 
 import Foundation
 
-struct KeyPath : Printable, Equatable {
-    let keys: [String]
-    
-    init(_ path: String) {
-        keys = path.componentsSeparatedByString(".")
-    }
-    
-    var length: Int {
-        return keys.count
-    }
-    
-    var description: String {
-        return keys.description
-    }
-    
-    var string: String {
-        return (keys as NSArray).componentsJoinedByString(".")
-    }
-}
-
-func ==(lhs: KeyPath, rhs: KeyPath) -> Bool {
-    return lhs.keys == rhs.keys
-}
-
-struct IndexPath : Printable, Equatable {
-    let indices: [Int]
-    
-    init(_ index: Int...) {
-        indices = index
-    }
-    
-    var length: Int {
-        return indices.count
-    }
-    
-    var description: String {
-        return indices.description
-    }
-}
-
-func ==(lhs: IndexPath, rhs: IndexPath) -> Bool {
-    return lhs.indices == rhs.indices
-}
-
-enum JSONValue {
+public enum JSONValue {
     case Object(NSDictionary)
     case Array(NSArray)
     case Number(NSNumber)
@@ -77,60 +33,44 @@ enum JSONValue {
     case Null
 }
 
-@objc protocol JSONConvertible {
+@objc public protocol JSONConvertible {
     var json: JSON { get }
 }
 
 extension NSDictionary : JSONConvertible {
-    var json: JSON {
+    public var json: JSON {
         return JSON(value: .Object(self))
     }
 }
 
 extension NSArray : JSONConvertible {
-    var json: JSON {
+    public var json: JSON {
         return JSON(value: .Array(self))
     }
 }
 
 extension NSNumber : JSONConvertible {
-    var json: JSON {
+    public var json: JSON {
         return JSON(value: .Number(self))
     }
 }
 
 extension NSString : JSONConvertible {
-    var json: JSON {
+    public var json: JSON {
         return JSON(value: .String(self))
     }
 }
 
 extension NSNull : JSONConvertible {
-    var json: JSON {
+    public var json: JSON {
         return JSON(value: .Null)
     }
 }
 
-extension NSSet : JSONConvertible {
-    var json: JSON {
-        return JSON(value: .Array(self.allObjects))
-    }
-}
-
-@objc class JSON {
+@objc public final class JSON : Printable {
     let value: JSONValue
     
-    class func parse(data: NSData, options: NSJSONReadingOptions = NSJSONReadingOptions(0)) -> JSON {
-        if let json = JSON.parse(data, options: options, error: nil) {
-            return json
-        } else if (options & NSJSONReadingOptions.MutableContainers) == NSJSONReadingOptions.MutableContainers {
-            return JSON.mutableObject()
-        } else {
-            return JSON.Object()
-        }
-    }
-    
-    class func parse(data: NSData, options: NSJSONReadingOptions, error: NSErrorPointer) -> JSON? {
+    public class func parse(data: NSData, options: NSJSONReadingOptions, error: NSErrorPointer) -> JSON? {
         if let anyObject: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: options, error: error) {
             switch anyObject {
             case let convertible as JSONConvertible:
@@ -143,31 +83,57 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    init(value: JSONValue) {
+    public func format(# options: NSJSONWritingOptions, error: NSErrorPointer) -> NSData? {
+        var obj: AnyObject!
+        
+        switch value {
+        case let .Array(array):
+            obj = array
+        case let .Object(object):
+            obj = object
+        case let .Number(number):
+            obj = number
+        case let .String(string):
+            obj = string
+        case .Null:
+            obj = NSNull()
+        }
+
+        return NSJSONSerialization.dataWithJSONObject(obj, options: options, error: error)
+    }
+    
+    public init(value: JSONValue) {
         self.value = value
     }
     
-    class func Null() -> JSON {
+    public class func null() -> JSON {
         return JSON(value: .Null)
     }
     
-    class func Object() -> JSON {
-        return JSON(value: .Object(NSDictionary()))
-    }
-    
-    class func mutableObject() -> JSON {
+    public class func object() -> JSON {
         return JSON(value: .Object(NSMutableDictionary()))
     }
     
-    class func Array() -> JSON {
-        return JSON(value: .Array(NSArray()))
-    }
-    
-    class func mutableArray() -> JSON {
+    public class func array() -> JSON {
         return JSON(value: .Array(NSMutableArray()))
     }
     
-    subscript(key: String) -> JSON {
+    public var description: String {
+        switch value {
+        case let .Array(array):
+            return array.description
+        case let .Object(object):
+            return object.description
+        case let .Number(number):
+            return number.description
+        case let .String(string):
+            return string.description
+        case .Null:
+            return "null"
+        }
+    }
+    
+    public subscript(key: String) -> JSON {
         get {
             switch value {
             case let .Object(dictionary):
@@ -175,10 +141,10 @@ extension NSSet : JSONConvertible {
                 case let convertible as JSONConvertible:
                     return convertible.json
                 default:
-                    return JSON.Null()
+                    return JSON.null()
                 }
             default:
-                return JSON.Null()
+                return JSON.null()
             }
         }
         set {
@@ -207,8 +173,8 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    subscript(keyPath: KeyPath) -> JSON {
-        if keyPath.length == 0 { return JSON.Null() }
+    public subscript(keyPath: KeyPath) -> JSON {
+        if keyPath.length == 0 { return JSON.null() }
         var value = self
         
         for key in keyPath.keys {
@@ -218,7 +184,7 @@ extension NSSet : JSONConvertible {
         return value
     }
     
-    subscript(index: Int) -> JSON {
+    public subscript(index: Int) -> JSON {
         get {
             switch value {
             case let .Array(array):
@@ -226,10 +192,10 @@ extension NSSet : JSONConvertible {
                 case let convertible as JSONConvertible:
                     return convertible.json
                 default:
-                    return JSON.Null()
+                    return JSON.null()
                 }
             default:
-                return JSON.Null()
+                return JSON.null()
             }
         }
         set {
@@ -258,26 +224,15 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    subscript(indexPath: IndexPath) -> JSON {
-        if indexPath.length == 0 { return JSON.Null() }
-        var value = self
-        
-        for index in indexPath.indices {
-            value = value[index]
-        }
-        
-        return value
-    }
-    
-    func set(key: String, convertible: JSONConvertible) {
+    public func set(key: String, convertible: JSONConvertible) {
         self[key] = convertible.json
     }
     
-    func set(index: Int, convertible: JSONConvertible) {
+    public func replace(index: Int, convertible: JSONConvertible) {
         self[index] = convertible.json
     }
     
-    func add(convertible: JSONConvertible) {
+    public func add(convertible: JSONConvertible) {
         switch value {
         case let .Array(array):
             switch array {
@@ -302,7 +257,7 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    func remove(key: String) {
+    public func removeKey(key: String) {
         switch value {
         case let .Object(dictionary):
             switch dictionary {
@@ -316,7 +271,7 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    func remove(index: Int) {
+    public func removeIndex(index: Int) {
         switch value {
         case let .Array(array):
             switch array {
@@ -330,7 +285,7 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    var count: Int {
+    public var count: Int {
         switch value {
         case let .Object(dictionary):
             return dictionary.count
@@ -341,37 +296,11 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    var object: NSDictionary {
-        return object(otherwise: NSDictionary())
+    public var number: NSNumber {
+        return number(otherwise: 0)
     }
     
-    func object(# otherwise: NSDictionary) -> NSDictionary {
-        switch value {
-        case let .Object(dictionary):
-            return dictionary
-        default:
-            return otherwise
-        }
-    }
-    
-    var array: NSArray {
-        return array(otherwise: NSArray())
-    }
-    
-    func array(# otherwise: NSArray) -> NSArray {
-        switch value {
-        case let .Array(array):
-            return array
-        default:
-            return otherwise
-        }
-    }
-    
-    var number: NSNumber {
-        return number(otherwise: NSNumber())
-    }
-    
-    func number(# otherwise: NSNumber) -> NSNumber {
+    public func number(# otherwise: NSNumber) -> NSNumber {
         switch value {
         case let .Number(number):
             return number
@@ -380,11 +309,20 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    var string: NSString {
+    public var numberOrNil: NSNumber? {
+        switch value {
+        case let .Number(number):
+            return number
+        default:
+            return nil
+        }
+    }
+    
+    public var string: NSString {
         return string(otherwise: "")
     }
     
-    func string(# otherwise: NSString) -> NSString {
+    public func string(# otherwise: NSString) -> NSString {
         switch value {
         case let .String(string):
             return string
@@ -393,7 +331,16 @@ extension NSSet : JSONConvertible {
         }
     }
     
-    var isNull: Bool {
+    public var stringOrNil: NSString? {
+        switch value {
+        case let .String(string):
+            return string
+        default:
+            return nil
+        }
+    }
+    
+    public var isNull: Bool {
         switch value {
         case .Null:
             return true
@@ -401,4 +348,64 @@ extension NSSet : JSONConvertible {
             return false
         }
     }
+    
+    public var isObject: Bool {
+        switch value {
+        case .Object:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    public var isArray: Bool {
+        switch value {
+        case .Array:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    public var isString: Bool {
+        switch value {
+        case .String:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    public var isNumber: Bool {
+        switch value {
+        case .Number:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+public struct KeyPath : Printable, Equatable {
+    public let keys: [String]
+    
+    public init(_ path: String) {
+        keys = path.componentsSeparatedByString(".")
+    }
+    
+    public var length: Int {
+        return keys.count
+    }
+    
+    public var description: String {
+        return keys.description
+    }
+    
+    public var string: String {
+        return (keys as NSArray).componentsJoinedByString(".")
+    }
+}
+
+public func ==(lhs: KeyPath, rhs: KeyPath) -> Bool {
+    return lhs.keys == rhs.keys
 }
