@@ -83,7 +83,7 @@ extension NSNull : JSONConvertible {
         }
     }
     
-    public func format(# options: NSJSONWritingOptions, error: NSErrorPointer) -> NSData? {
+    public func format(prettyPrinted: Bool = false) -> NSData {
         var obj: AnyObject!
         
         switch value {
@@ -99,7 +99,14 @@ extension NSNull : JSONConvertible {
             obj = NSNull()
         }
 
-        return NSJSONSerialization.dataWithJSONObject(obj, options: options, error: error)
+        var error: NSError?
+        let options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions.allZeros
+        if let data = NSJSONSerialization.dataWithJSONObject(obj, options: options, error: &error) {
+            return data
+        } else {
+            println(error)
+            fatalError("Unable to format JSON")
+        }
     }
     
     public init(value: JSONValue) {
