@@ -25,8 +25,8 @@
 
 import Foundation
 
-extension NSURLSessionConfiguration {
-    func noCookies() -> NSURLSessionConfiguration {
+public extension NSURLSessionConfiguration {
+    public func noCookies() -> NSURLSessionConfiguration {
         HTTPCookieAcceptPolicy = .Never
         HTTPShouldSetCookies = false
         HTTPCookieStorage = nil
