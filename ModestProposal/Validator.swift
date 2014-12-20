@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// Validator.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,39 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
+public class Validator {
+    public struct Rule {
+        let isValid: @autoclosure () -> Bool
+        let invalid: @autoclosure () -> NSError
+    }
+    
+    let rules: [Rule]
+    
+    public init(rules: [Rule]) {
+        self.rules = rules
+    }
+    
+    public func validate() -> NSError? {
+        for rule in rules {
+            if !rule.isValid() {
+                return rule.invalid()
+            }
+        }
+        
+        return nil
+    }
+}
 
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
-
-
+public class ValidatorBuilder {
+    var rules = Array<Validator.Rule>()
+    
+    public func valid(# when: @autoclosure () -> Bool, otherwise: @autoclosure () -> NSError) {
+        rules.append(Validator.Rule(isValid: when, invalid: otherwise))
+    }
+    
+    public func build() -> Validator {
+        return Validator(rules: rules)
+    }
+}

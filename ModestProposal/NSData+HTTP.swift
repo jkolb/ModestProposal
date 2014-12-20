@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// NSData+HTTP.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,12 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
-
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
-
-
+public extension NSData {
+    public class func formURLEncode(parameters: [String:String]?, encoding: UInt = NSUTF8StringEncoding) -> NSData? {
+        let components = NSURLComponents()
+        components.parameters = parameters
+        return components.query?.dataUsingEncoding(encoding, allowLossyConversion: false)
+    }
+}

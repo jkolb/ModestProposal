@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D4939E55-66A5-4C4C-9EF3-281A9F33EB48</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ModestProposal</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>258B1CA7AD0C6683B9A422EFC48F6259F7BB9759</key>
+		<string>https://github.com/jkolb/ModestProposal.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ModestProposal.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>258B1CA7AD0C6683B9A422EFC48F6259F7BB9759</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jkolb/ModestProposal.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>258B1CA7AD0C6683B9A422EFC48F6259F7BB9759</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>258B1CA7AD0C6683B9A422EFC48F6259F7BB9759</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ModestProposal</string>
+		</dict>
+	</array>
+</dict>
+</plist>

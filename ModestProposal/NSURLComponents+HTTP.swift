@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// NSURLComponents+HTTP.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,32 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
-
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
-
-
+public extension NSURLComponents {
+    public var parameters: [String:String]? {
+        get {
+            if let items = queryItems as? [NSURLQueryItem] {
+                var parameters = [String:String](minimumCapacity: items.count)
+                for item in items {
+                    parameters[item.name] = item.value
+                }
+                return parameters
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let parameters = newValue {
+                var items = [NSURLQueryItem]()
+                items.reserveCapacity(parameters.count)
+                for (name, value) in parameters {
+                    items.append(NSURLQueryItem(name: name, value: value))
+                }
+                queryItems = items
+            } else {
+                queryItems = nil
+            }
+        }
+    }
+}

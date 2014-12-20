@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// HTTPRequestField.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,37 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
-
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
-
-
+public enum HTTPRequestField : String {
+    case Accept = "Accept"
+    case AcceptCharset = "Accept-Charset"
+    case AcceptEncoding = "Accept-Encoding"
+    case AcceptLanguage = "Accept-Language"
+    case AcceptDatetime = "Accept-Datetime"
+    case Authorization = "Authorization"
+    case CacheControl = "Cache-Control"
+    case Connection = "Connection"
+    case Cookie = "Cookie"
+    case ContentLength = "Content-Length"
+    case ContentMD5 = "Content-MD5"
+    case ContentType = "Content-Type"
+    case Date = "Date"
+    case Expect = "Expect"
+    case From = "From"
+    case Host = "Host"
+    case IfMatch = "If-Match"
+    case IfModifiedSince = "If-Modified-Since"
+    case IfNoneMatch = "If-None-Match"
+    case IfRange = "If-Range"
+    case IfUnmodifiedSince = "If-Unmodified-Since"
+    case MaxForwards = "Max-Forwards"
+    case Origin = "Origin"
+    case Pragma = "Pragma"
+    case ProxyAuthorization = "Proxy-Authorization"
+    case Range = "Range"
+    case Referer = "Referer"
+    case TE = "TE"
+    case UserAgent = "User-Agent"
+    case Upgrade = "Upgrade"
+    case Via = "Via"
+    case Warning = "Warning"
+}

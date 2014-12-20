@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// Utility.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,43 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
+public enum Outcome<Result, Reason> {
+    case Success(@autoclosure () -> Result)
+    case Failure(@autoclosure () -> Reason)
+}
 
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
+public func rawValues<T : RawRepresentable>(rawRepresentables: [T]) -> [T.RawValue] {
+    var rawValues = Array<T.RawValue>()
 
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
+    for rawRepresentable in rawRepresentables {
+        rawValues.append(rawRepresentable.rawValue)
+    }
+    
+    return rawValues
+}
 
+public struct KeyPath : Printable, Equatable {
+    public let keys: [String]
+    
+    public init(_ path: String) {
+        keys = path.componentsSeparatedByString(".")
+    }
+    
+    public var length: Int {
+        return keys.count
+    }
+    
+    public var description: String {
+        return keys.description
+    }
+    
+    public var string: String {
+        return (keys as NSArray).componentsJoinedByString(".")
+    }
+}
 
+public func ==(lhs: KeyPath, rhs: KeyPath) -> Bool {
+    return lhs.keys == rhs.keys
+}

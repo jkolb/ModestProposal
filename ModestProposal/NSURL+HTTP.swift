@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// NSURL+HTTP.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,16 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
-
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
-
-
+public extension NSURL {
+    public func buildURL(path pathOrNil: String?, parameters: [String:String]? = nil) -> NSURL? {
+        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) {
+            components.path = String.pathWithComponents([components.path ?? "", path ?? ""])
+            components.parameters = parameters
+            return components.URL
+        } else {
+            return nil
+        }
+    }
+}

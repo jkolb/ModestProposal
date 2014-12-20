@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// HTTPRequestMethod.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,14 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
-
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
-
-
+public enum HTTPRequestMethod : String {
+    case CONNECT = "CONNECT"
+    case DELETE = "DELETE"
+    case GET = "GET"
+    case HEAD = "HEAD"
+    case OPTIONS = "OPTIONS"
+    case PATCH = "PATCH"
+    case POST = "POST"
+    case PUT = "PUT"
+    case TRACE = "TRACE"
+}

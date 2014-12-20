@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// Transform.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,26 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import Dispatch
 
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
+public func transform<Input, Output, Error>(
+    # input: Input,
+    # transformer: (Input) -> Outcome<Output, Error>,
+    completion: (Outcome<Output, Error>) -> ()
+    )
+{
+    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+    transform(on: queue, input: input, transformer: transformer, completion)
+}
 
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
-
-
+public func transform<Input, Output, Error>(
+    on queue: dispatch_queue_t,
+    # input: Input,
+    # transformer: (Input) -> Outcome<Output, Error>,
+    completion: (Outcome<Output, Error>) -> ()
+    )
+{
+    dispatch_async(queue, {
+        completion(transformer(input))
+    })
+}

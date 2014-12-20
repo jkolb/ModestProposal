@@ -1,5 +1,5 @@
 //
-// ModestProposal.h
+// HTTPTransform.swift
 // ModestProposal
 //
 // Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
@@ -23,14 +23,40 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import Foundation
+import UIKit
 
-//! Project version number for ModestProposal.
-FOUNDATION_EXPORT double ModestProposalVersionNumber;
+public func defaultJSONTransformer(JSONData: NSData) -> Outcome<JSON, NSError> {
+    var error: NSError?
+    
+    if let json = JSON.parse(JSONData, options: nil, error: &error) {
+        return .Success(json)
+    } else {
+        return .Failure(error!)
+    }
+}
 
-//! Project version string for ModestProposal.
-FOUNDATION_EXPORT const unsigned char ModestProposalVersionString[];
+public func defaultImageTransformer(imageData: NSData) -> Outcome<UIImage, NSError> {
+    if let image = UIImage(data: imageData) {
+        return .Success(image)
+    } else {
+        return .Failure(NSError.invalidImageDataError())
+    }
+}
 
-// In this header, you should import all the public headers of your framework using statements like #import <ModestProposal/PublicHeader.h>
+public extension NSError {
+    public class func invalidImageDataError() -> NSError {
+        return NSError(
+            domain: ImageTransformerErrorDomain,
+            code: ImageTransformerInvalidDataErrorCode,
+            userInfo: nil
+        )
+    }
+    
+    public var isInvalidImageDataError: Bool {
+        return domain == ImageTransformerErrorDomain && code == ImageTransformerInvalidDataErrorCode
+    }
+}
 
-
+public let ImageTransformerErrorDomain = "net.franticapparatus.ImageTransformerErrorDomain"
+public let ImageTransformerInvalidDataErrorCode = 100

@@ -392,27 +392,3 @@ extension NSNull : JSONConvertible {
         }
     }
 }
-
-public struct KeyPath : Printable, Equatable {
-    public let keys: [String]
-    
-    public init(_ path: String) {
-        keys = path.componentsSeparatedByString(".")
-    }
-    
-    public var length: Int {
-        return keys.count
-    }
-    
-    public var description: String {
-        return keys.description
-    }
-    
-    public var string: String {
-        return (keys as NSArray).componentsJoinedByString(".")
-    }
-}
-
-public func ==(lhs: KeyPath, rhs: KeyPath) -> Bool {
-    return lhs.keys == rhs.keys
-}
