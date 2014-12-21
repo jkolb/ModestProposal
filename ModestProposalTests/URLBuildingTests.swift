@@ -28,16 +28,21 @@ import XCTest
 class URLBuildingTests: XCTestCase {
     func testPaths() {
         assert(baseURL: "http://test.com", path: nil, parameters: nil, equals: "http://test.com")
+        assert(baseURL: "http://test.com", path: "", parameters: nil, equals: "http://test.com")
         assert(baseURL: "http://test.com", path: "test", parameters: nil, equals: "http://test.com/test")
         assert(baseURL: "http://test.com", path: "/test", parameters: nil, equals: "http://test.com/test")
         assert(baseURL: "http://test.com", path: "test/", parameters: nil, equals: "http://test.com/test/")
         assert(baseURL: "http://test.com", path: "/test/", parameters: nil, equals: "http://test.com/test/")
+        
         assert(baseURL: "http://test.com/", path: nil, parameters: nil, equals: "http://test.com/")
+        assert(baseURL: "http://test.com/", path: "", parameters: nil, equals: "http://test.com/")
         assert(baseURL: "http://test.com/", path: "test", parameters: nil, equals: "http://test.com/test")
         assert(baseURL: "http://test.com/", path: "/test", parameters: nil, equals: "http://test.com/test")
         assert(baseURL: "http://test.com/", path: "test/", parameters: nil, equals: "http://test.com/test/")
         assert(baseURL: "http://test.com/", path: "/test/", parameters: nil, equals: "http://test.com/test/")
+        
         assert(baseURL: "http://test.com/test", path: nil, parameters: nil, equals: "http://test.com/test")
+        assert(baseURL: "http://test.com/test", path: "", parameters: nil, equals: "http://test.com/test")
         assert(baseURL: "http://test.com/test", path: "A", parameters: nil, equals: "http://test.com/test/A")
         assert(baseURL: "http://test.com/test", path: "A/", parameters: nil, equals: "http://test.com/test/A/")
     }
