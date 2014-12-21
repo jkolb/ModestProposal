@@ -27,9 +27,25 @@ import Foundation
 
 public extension NSURL {
     public func buildURL(# path: String?, parameters: [String:String]? = nil) -> NSURL? {
-        if var components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) {
-            components.path = String.pathWithComponents([components.path ?? "", path ?? ""])
-            components.parameters = parameters
+        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) {
+            let pathSeparator = "/"
+            var basePath = components.path ?? ""
+            let appendPath = path ?? ""
+
+            if basePath == pathSeparator { basePath = "" }
+
+            if appendPath.hasPrefix(pathSeparator) {
+                components.path = basePath + appendPath
+            } else if appendPath != "" {
+                components.path = join(pathSeparator, [basePath, appendPath])
+            }
+            
+            let appendParameters = parameters ?? [:]
+            
+            if appendParameters.count > 0 {
+                components.parameters = parameters
+            }
+            
             return components.URL
         } else {
             return nil

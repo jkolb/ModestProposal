@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E5014F5C1A47672400BF0451 /* URLBuildingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5014F5B1A47672400BF0451 /* URLBuildingTests.swift */; };
 		E502962E1A44C27E00B79BDE /* NSData+HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296271A44C27E00B79BDE /* NSData+HTTP.swift */; };
 		E502962F1A44C27E00B79BDE /* NSData+HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296271A44C27E00B79BDE /* NSData+HTTP.swift */; };
 		E50296301A44C27E00B79BDE /* NSURL+HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296281A44C27E00B79BDE /* NSURL+HTTP.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E5014F5B1A47672400BF0451 /* URLBuildingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLBuildingTests.swift; sourceTree = "<group>"; };
 		E50296271A44C27E00B79BDE /* NSData+HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+HTTP.swift"; sourceTree = "<group>"; };
 		E50296281A44C27E00B79BDE /* NSURL+HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+HTTP.swift"; sourceTree = "<group>"; };
 		E50296291A44C27E00B79BDE /* NSURLComponents+HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLComponents+HTTP.swift"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				E502965A1A45002100B79BDE /* EntityTranslationTests.swift */,
+				E5014F5B1A47672400BF0451 /* URLBuildingTests.swift */,
 				E5F4960119DCA80B00B80DB4 /* Supporting Files */,
 			);
 			path = ModestProposalTests;
@@ -331,6 +334,7 @@
 				E50296371A44C27E00B79BDE /* Utility.swift in Sources */,
 				E502962F1A44C27E00B79BDE /* NSData+HTTP.swift in Sources */,
 				E502965C1A45004800B79BDE /* String+Entities.swift in Sources */,
+				E5014F5C1A47672400BF0451 /* URLBuildingTests.swift in Sources */,
 				E50296331A44C27E00B79BDE /* NSURLComponents+HTTP.swift in Sources */,
 				E5F4960F19DCA82C00B80DB4 /* JSON.swift in Sources */,
 			);
