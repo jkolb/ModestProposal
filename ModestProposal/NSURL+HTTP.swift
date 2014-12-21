@@ -26,8 +26,8 @@
 import Foundation
 
 public extension NSURL {
-    public func buildURL(path pathOrNil: String?, parameters: [String:String]? = nil) -> NSURL? {
-        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) {
+    public func buildURL(# path: String?, parameters: [String:String]? = nil) -> NSURL? {
+        if var components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) {
             components.path = String.pathWithComponents([components.path ?? "", path ?? ""])
             components.parameters = parameters
             return components.URL
