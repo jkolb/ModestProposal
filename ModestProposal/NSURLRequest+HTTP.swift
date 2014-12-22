@@ -27,7 +27,7 @@ import Foundation
 
 public extension NSURLRequest {
     public func DELETE(path: String, parameters: [String:String]? = nil) -> NSMutableURLRequest {
-        return buildHTTP(.GET, path: path, parameters: parameters)
+        return buildHTTP(.DELETE, path: path, parameters: parameters)
     }
     
     public func GET(path: String, parameters: [String:String]? = nil) -> NSMutableURLRequest {
