@@ -28,9 +28,13 @@ import Foundation
 public extension NSURLComponents {
     public var parameters: [String:String]? {
         get {
+            // Assumes query string does not have duplicate names! Any duplicates will be ignored.
             if let items = queryItems as? [NSURLQueryItem] {
                 var parameters = [String:String](minimumCapacity: items.count)
                 for item in items {
+                    if let existing = parameters[item.name] {
+                        continue // Prevent crash when there are duplicate keys
+                    }
                     parameters[item.name] = item.value
                 }
                 return parameters

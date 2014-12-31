@@ -26,7 +26,7 @@
 import XCTest
 
 class URLBuildingTests: XCTestCase {
-    func testPaths() {
+    func testBuildPaths() {
         assert(baseURL: "http://test.com", path: nil, parameters: nil, equals: "http://test.com")
         assert(baseURL: "http://test.com", path: "", parameters: nil, equals: "http://test.com")
         assert(baseURL: "http://test.com", path: "test", parameters: nil, equals: "http://test.com/test")
@@ -43,21 +43,65 @@ class URLBuildingTests: XCTestCase {
         
         assert(baseURL: "http://test.com/test", path: nil, parameters: nil, equals: "http://test.com/test")
         assert(baseURL: "http://test.com/test", path: "", parameters: nil, equals: "http://test.com/test")
-        assert(baseURL: "http://test.com/test", path: "A", parameters: nil, equals: "http://test.com/test/A")
-        assert(baseURL: "http://test.com/test", path: "A/", parameters: nil, equals: "http://test.com/test/A/")
+        assert(baseURL: "http://test.com/test", path: "A", parameters: nil, equals: "http://test.com/A")
+        assert(baseURL: "http://test.com/test", path: "A/", parameters: nil, equals: "http://test.com/A/")
+        assert(baseURL: "http://test.com/test", path: "/A", parameters: nil, equals: "http://test.com/A")
+        assert(baseURL: "http://test.com/test", path: "/A/", parameters: nil, equals: "http://test.com/A/")
+        
+        assert(baseURL: "http://test.com/test/", path: nil, parameters: nil, equals: "http://test.com/test/")
+        assert(baseURL: "http://test.com/test/", path: "", parameters: nil, equals: "http://test.com/test/")
+        assert(baseURL: "http://test.com/test/", path: "A", parameters: nil, equals: "http://test.com/test/A")
+        assert(baseURL: "http://test.com/test/", path: "A/", parameters: nil, equals: "http://test.com/test/A/")
+        assert(baseURL: "http://test.com/test/", path: "A", parameters: nil, equals: "http://test.com/test/A")
+        assert(baseURL: "http://test.com/test/", path: "A/", parameters: nil, equals: "http://test.com/test/A/")
+
+        assert(baseURL: "http://test.com/test%20A/", path: nil, parameters: nil, equals: "http://test.com/test%20A/")
+        assert(baseURL: "http://test.com/test%20A/", path: "", parameters: nil, equals: "http://test.com/test%20A/")
+        assert(baseURL: "http://test.com/test%20A/", path: "A", parameters: nil, equals: "http://test.com/test%20A/A")
+        assert(baseURL: "http://test.com/test%20A/", path: "A/", parameters: nil, equals: "http://test.com/test%20A/A/")
+        assert(baseURL: "http://test.com/test%20A/", path: "A", parameters: nil, equals: "http://test.com/test%20A/A")
+        assert(baseURL: "http://test.com/test%20A/", path: "A/", parameters: nil, equals: "http://test.com/test%20A/A/")
+        
+        assert(baseURL: "http://test.com/test/", path: nil, parameters: nil, equals: "http://test.com/test/")
+        assert(baseURL: "http://test.com/test/", path: "", parameters: nil, equals: "http://test.com/test/")
+        assert(baseURL: "http://test.com/test/", path: "A%20A", parameters: nil, equals: "http://test.com/test/A%20A")
+        assert(baseURL: "http://test.com/test/", path: "A%20A/", parameters: nil, equals: "http://test.com/test/A%20A/")
+        assert(baseURL: "http://test.com/test/", path: "A%20A", parameters: nil, equals: "http://test.com/test/A%20A")
+        assert(baseURL: "http://test.com/test/", path: "A%20A/", parameters: nil, equals: "http://test.com/test/A%20A/")
     }
     
-    func testParameters() {
+    func testBuildParameters() {
         assert(baseURL: "http://test.com", path: nil, parameters: nil, equals: "http://test.com")
-        assert(baseURL: "http://test.com", path: nil, parameters: [:], equals: "http://test.com")
+        assert(baseURL: "http://test.com", path: nil, parameters: [:], equals: "http://test.com?")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":""], equals: "http://test.com?test=")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":"A"], equals: "http://test.com?test=A")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":"A A"], equals: "http://test.com?test=A%20A")
+    }
+
+    func testRetrieveParameters() {
+        assert(URL: "http://test.com", expected: nil)
+        assert(URL: "http://test.com?", expected: [:])
+        assert(URL: "http://test.com?test=", expected: ["test": ""])
+        assert(URL: "http://test.com?test=A", expected: ["test": "A"])
+        assert(URL: "http://test.com?test=A%20A", expected: ["test": "A A"])
+        assert(URL: "http://test.com?test=A", expected: ["test": "A"])
+        assert(URL: "http://test.com?test=A&test=B", expected: ["test": "A"])
+        assert(URL: "http://test.com?test1=A&test2=B", expected: ["test1": "A", "test2": "B"])
     }
     
     func assert(# baseURL: String, path: String?, parameters: [String:String]?, equals: String) {
         let baseURL = NSURL(string: baseURL)!
         let builtURL = baseURL.buildURL(path: path, parameters: parameters)!
         XCTAssertEqual(builtURL.absoluteString!, equals, "Failed")
+    }
+    
+    func assert(# URL: String, expected: [String:String]?) {
+        let baseURL = NSURL(string: URL)!
+        
+        if let parameters = baseURL.parameters {
+            XCTAssertEqual(parameters, expected!, "Failed")
+        } else {
+            XCTAssertNil(expected, "Failed")
+        }
     }
 }
