@@ -27,11 +27,11 @@ import Foundation
 
 public extension NSURLResponse {
     public var isHTTP : Bool {
-        return self as? NSHTTPURLResponse != nil
+        return (self as? NSHTTPURLResponse) != nil
     }
     
     public var asHTTP : NSHTTPURLResponse {
-        return self as NSHTTPURLResponse
+        return self as! NSHTTPURLResponse
     }
 }
 

@@ -36,10 +36,10 @@ public class Example {
             if let strongSelf = self {
                 switch outcome {
                 case .Success(let resultProducer):
-                    let json = resultProducer()
+                    let json = resultProducer.unwrap
                     println(json)
                 case .Failure(let reasonProducer):
-                    let error = reasonProducer()
+                    let error = reasonProducer.unwrap
                     println(error)
                 }
                 strongSelf.task = nil
@@ -60,7 +60,7 @@ public class ExampleAPI {
     
     public init(session: NSURLSession, prototype: NSURLRequest) {
         self.session = session
-        self.prototype = prototype.copy() as NSURLRequest
+        self.prototype = prototype.copy() as! NSURLRequest
     }
 
     // MARK: - Your API
@@ -149,11 +149,11 @@ public class ExampleAPI {
     {
         return session.dataTaskWithRequest(request) { (data, response, error) in
             if error != nil {
-                completion(.Failure(error))
+                completion(.Failure(Value(error)))
             }
             
             if let validationError = validator(response) {
-                completion(.Failure(validationError))
+                completion(.Failure(Value(validationError)))
             }
             
             transform(input: data, transformer: transformer, completion)

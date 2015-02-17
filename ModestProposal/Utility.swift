@@ -25,9 +25,17 @@
 
 import Foundation
 
+public class Value<T> {
+    let unwrap: T
+    
+    init(_ value: T) {
+        self.unwrap = value
+    }
+}
+
 public enum Outcome<Result, Reason> {
-    case Success(@autoclosure () -> Result)
-    case Failure(@autoclosure () -> Reason)
+    case Success(Value<Result>)
+    case Failure(Value<Reason>)
 }
 
 public func rawValues<T : RawRepresentable>(rawRepresentables: [T]) -> [T.RawValue] {

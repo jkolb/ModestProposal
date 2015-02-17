@@ -28,33 +28,33 @@ import Foundation
 public extension Validator {
     public class func defaultJSONResponseValidator(response: NSURLResponse) -> Validator {
         let builder = ValidatorBuilder()
-        builder.valid(when: response.isHTTP, otherwise: NSError.notAnHTTPResponseError())
-        builder.valid(when: response.asHTTP.isSuccessful, otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode))
-        builder.valid(when: response.asHTTP.isJSON, otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType))
+        builder.valid(when: {response.isHTTP}, otherwise: {NSError.notAnHTTPResponseError()})
+        builder.valid(when: {response.asHTTP.isSuccessful}, otherwise: {NSError.unexpectedStatusCodeError(response.asHTTP.statusCode)})
+        builder.valid(when: {response.asHTTP.isJSON}, otherwise: {NSError.unexpectedContentTypeError(response.asHTTP.MIMEType)})
         return builder.build()
     }
     
     public class func defaultImageResponseValidator(response: NSURLResponse) -> Validator {
         let builder = ValidatorBuilder()
-        builder.valid(when: response.isHTTP, otherwise: NSError.notAnHTTPResponseError())
-        builder.valid(when: response.asHTTP.isSuccessful, otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode))
-        builder.valid(when: response.asHTTP.isImage, otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType))
+        builder.valid(when: {response.isHTTP}, otherwise: {NSError.notAnHTTPResponseError()})
+        builder.valid(when: {response.asHTTP.isSuccessful}, otherwise: {NSError.unexpectedStatusCodeError(response.asHTTP.statusCode)})
+        builder.valid(when: {response.asHTTP.isImage}, otherwise: {NSError.unexpectedContentTypeError(response.asHTTP.MIMEType)})
         return builder.build()
     }
     
     public class func HTTPResponseValidator(response: NSURLResponse, allowedStatuses: [Int], allowedContentTypes: [String]) -> Validator {
         let builder = ValidatorBuilder()
         builder.valid(
-            when: response.isHTTP,
-            otherwise: NSError.notAnHTTPResponseError()
+            when: {response.isHTTP},
+            otherwise: {NSError.notAnHTTPResponseError()}
         )
         builder.valid(
-            when: response.asHTTP.matchesStatuses(allowedStatuses),
-            otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode)
+            when: {response.asHTTP.matchesStatuses(allowedStatuses)},
+            otherwise: {NSError.unexpectedStatusCodeError(response.asHTTP.statusCode)}
         )
         builder.valid(
-            when: response.asHTTP.matchesContentTypes(allowedContentTypes),
-            otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType)
+            when: {response.asHTTP.matchesContentTypes(allowedContentTypes)},
+            otherwise: {NSError.unexpectedContentTypeError(response.asHTTP.MIMEType)}
         )
         return builder.build()
     }
@@ -68,7 +68,7 @@ public extension NSError {
             userInfo: nil
         )
     }
-
+    
     public class func unexpectedStatusCodeError(statusCode: Int) -> NSError {
         return NSError(
             domain: HTTPResponseValidationErrorDomain,

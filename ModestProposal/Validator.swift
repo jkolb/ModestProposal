@@ -27,8 +27,8 @@ import Foundation
 
 public class Validator {
     public struct Rule {
-        let isValid: @autoclosure () -> Bool
-        let invalid: @autoclosure () -> NSError
+        let isValid: () -> Bool
+        let invalid: () -> NSError
     }
     
     let rules: [Rule]
@@ -51,8 +51,8 @@ public class Validator {
 public class ValidatorBuilder {
     var rules = Array<Validator.Rule>()
     
-    public func valid(# when: @autoclosure () -> Bool, otherwise: @autoclosure () -> NSError) {
-        rules.append(Validator.Rule(isValid: when, invalid: otherwise))
+  public func valid(# when: () -> Bool, otherwise: () -> NSError) {
+    rules.append(Validator.Rule(isValid: when, invalid: otherwise))
     }
     
     public func build() -> Validator {

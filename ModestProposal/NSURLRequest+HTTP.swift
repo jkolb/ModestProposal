@@ -63,7 +63,7 @@ public extension NSURLRequest {
     }
     
     public func buildHTTP(method: String, path: String, parameters: [String:String]? = nil, body: NSData? = nil, contentType: String? = nil) -> NSMutableURLRequest {
-        let request = mutableCopy() as NSMutableURLRequest
+        let request = mutableCopy() as! NSMutableURLRequest
         request.URL = request.URL?.buildURL(path: path, parameters: parameters)
         request.HTTPMethod = method
         request.HTTPBody = body
