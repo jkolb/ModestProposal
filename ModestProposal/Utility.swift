@@ -26,9 +26,9 @@
 import Foundation
 
 public class Value<T> {
-    let unwrap: T
+    public let unwrap: T
     
-    init(_ value: T) {
+    public init(_ value: T) {
         self.unwrap = value
     }
 }
