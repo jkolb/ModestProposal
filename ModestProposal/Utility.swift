@@ -36,6 +36,14 @@ public class Value<T> {
 public enum Outcome<Result, Reason> {
     case Success(Value<Result>)
     case Failure(Value<Reason>)
+    
+    public init(_ result: Result) {
+        self = .Success(Value(result))
+    }
+    
+    public init(_ reason: Reason) {
+        self = .Failure(Value(reason))
+    }
 }
 
 public func rawValues<T : RawRepresentable>(rawRepresentables: [T]) -> [T.RawValue] {

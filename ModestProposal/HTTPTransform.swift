@@ -30,17 +30,17 @@ public func defaultJSONTransformer(JSONData: NSData) -> Outcome<JSON, NSError> {
     var error: NSError?
     
     if let json = JSON.parse(JSONData, options: nil, error: &error) {
-        return .Success(Value(json))
+        return Outcome(json)
     } else {
-        return .Failure(Value(error!))
+        return Outcome(error!)
     }
 }
 
 public func defaultImageTransformer(imageData: NSData) -> Outcome<UIImage, NSError> {
     if let image = UIImage(data: imageData) {
-        return .Success(Value(image))
+        return Outcome(image)
     } else {
-        return .Failure(Value(NSError.invalidImageDataError()))
+        return Outcome(NSError.invalidImageDataError())
     }
 }
 

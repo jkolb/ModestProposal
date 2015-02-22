@@ -149,11 +149,11 @@ public class ExampleAPI {
     {
         return session.dataTaskWithRequest(request) { (data, response, error) in
             if error != nil {
-                completion(.Failure(Value(error)))
+                completion(Outcome(error))
             }
             
             if let validationError = validator(response) {
-                completion(.Failure(Value(validationError)))
+                completion(Outcome(validationError))
             }
             
             transform(input: data, transformer: transformer, completion)
