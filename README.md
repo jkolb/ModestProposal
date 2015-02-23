@@ -1,6 +1,6 @@
 # ModestProposal
 
-An HTTP Toolbox
+An HTTP Toolbox (Requires Swift 1.2 Beta 2)
 
 #### Features
 * URL building
@@ -67,20 +67,20 @@ An HTTP Toolbox
 
     func imageTransformer(imageData: NSData) -> Outcome<UIImage, NSError> {
 		if let image = UIImage(data: imageData) {
-            return .Success(image)
+            return Outcome(image)
         } else {
-            return .Failure(NSError(domain, "MyDomain", code: kErrorCode, userInfo: nil))
+            return Outcome(NSError(domain, "MyDomain", code: kErrorCode, userInfo: nil))
         }
 	}
     
     let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 	
     transform(on: queue, input: imageData, transformer: imageTransformer) { (outcome) in
-		switch outcome {
-		case .Success(let resultProducer):
-			let image = resultProducer()
-		case .Failure(let reasonProducer):
-			let error = reasonProducer()
+		outcome.onSuccess { (image) in
+			// Use image
+		}
+		outcome.onFailure { (error) in
+			// Use error
 		}
 	}
 

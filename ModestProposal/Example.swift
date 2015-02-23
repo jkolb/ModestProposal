@@ -34,17 +34,23 @@ public class Example {
     public func fetchAll() {
         task = API.subreddit(name: "all", completion: { [weak self] (outcome) in
             if let strongSelf = self {
-                switch outcome {
-                case .Success(let resultProducer):
-                    let json = resultProducer.unwrap
-                    println(json)
-                case .Failure(let reasonProducer):
-                    let error = reasonProducer.unwrap
-                    println(error)
+                outcome.onSuccess { (json) in
+                    strongSelf.displayResult(json)
+                }
+                outcome.onFailure { (error) in
+                    strongSelf.displayError(error)
                 }
                 strongSelf.task = nil
             }
         })
+    }
+    
+    public func displayResult(json: JSON) {
+        println(json)
+    }
+    
+    public func displayError(error: NSError) {
+        println(error)
     }
 }
 

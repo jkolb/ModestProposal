@@ -44,6 +44,24 @@ public enum Outcome<Result, Reason> {
     public init(_ reason: Reason) {
         self = .Failure(Value(reason))
     }
+    
+    public func onSuccess(@noescape handler: (Result) -> ()) {
+        switch self {
+        case .Success(let value):
+            handler(value.unwrap)
+        default:
+            return
+        }
+    }
+    
+    public func onFailure(@noescape handler: (Reason) -> ()) {
+        switch self {
+        case .Failure(let value):
+            handler(value.unwrap)
+        default:
+            return
+        }
+    }
 }
 
 public func rawValues<T : RawRepresentable>(rawRepresentables: [T]) -> [T.RawValue] {
