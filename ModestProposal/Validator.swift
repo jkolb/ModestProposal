@@ -51,8 +51,8 @@ public class Validator {
 public class ValidatorBuilder {
     var rules = Array<Validator.Rule>()
     
-  public func valid(# when: () -> Bool, otherwise: () -> NSError) {
-    rules.append(Validator.Rule(isValid: when, invalid: otherwise))
+    public func valid(@autoclosure(escaping) # when: () -> Bool, @autoclosure(escaping) otherwise: () -> NSError) {
+        rules.append(Validator.Rule(isValid: when, invalid: otherwise))
     }
     
     public func build() -> Validator {
