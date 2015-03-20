@@ -303,20 +303,7 @@ extension NSNull : JSONConvertible {
         }
     }
     
-    public var number: NSNumber {
-        return number(otherwise: 0)
-    }
-    
-    public func number(# otherwise: NSNumber) -> NSNumber {
-        switch value {
-        case let .Number(number):
-            return number
-        default:
-            return otherwise
-        }
-    }
-    
-    public var numberOrNil: NSNumber? {
+    public var asNumber: NSNumber? {
         switch value {
         case let .Number(number):
             return number
@@ -325,28 +312,89 @@ extension NSNull : JSONConvertible {
         }
     }
     
-    public var string: NSString {
-        return string(otherwise: "")
-    }
-    
-    public func string(# otherwise: NSString) -> NSString {
+    public var asString: String? {
         switch value {
         case let .String(string):
-            return string
-        default:
-            return otherwise
-        }
-    }
-    
-    public var stringOrNil: NSString? {
-        switch value {
-        case let .String(string):
-            return string
+            return string as? String
         default:
             return nil
         }
     }
     
+    public var asArray: [AnyObject]? {
+        switch value {
+        case let .Array(array):
+            return array as [AnyObject]
+        default:
+            return nil
+        }
+    }
+    
+    public var asStringArray: [String]? {
+        if let array = asArray {
+            var strings: [String] = []
+            for object in array {
+                if let string = object as? String {
+                    strings.append(string)
+                } else {
+                    return nil
+                }
+            }
+            return strings
+        } else {
+            return nil
+        }
+    }
+    
+    public var asSecondsSince1970: NSDate? {
+        if let number = asNumber {
+            return NSDate(timeIntervalSince1970: number.doubleValue)
+        } else {
+            return nil
+        }
+    }
+    
+    public var asURL: NSURL? {
+        if let string = asString {
+            let length = Swift.count(string)
+            return length == 0 ? nil : NSURL(string: string)
+        } else {
+            return nil
+        }
+    }
+    
+    public var asUnescapedString: String? {
+        if let string = asString {
+            return string.unescapeEntities()
+        } else {
+            return nil
+        }
+    }
+    
+    public var asDouble: Double? {
+        if let number = asNumber {
+            return number.doubleValue
+        } else {
+            return nil
+        }
+    }
+    
+    public var asInteger: Int? {
+        if let number = asNumber {
+            return number.integerValue
+        } else {
+            return nil
+        }
+    }
+    
+    public var asBoolean: Bool? {
+        if let number = asNumber {
+            return number.boolValue
+        } else {
+            return nil
+        }
+    }
+
     public var isNull: Bool {
         switch value {
         case .Null:
