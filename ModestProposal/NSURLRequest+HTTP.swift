@@ -79,7 +79,7 @@ public extension NSMutableURLRequest {
     public func basicAuthorization(# username: String, password: String, encoding: NSStringEncoding = NSUTF8StringEncoding) {
         let authorizationString = "\(username):\(password)"
         if let authorizationData = authorizationString.dataUsingEncoding(encoding, allowLossyConversion: false) {
-            let base64String = authorizationData.base64EncodedDataWithOptions(nil)
+            let base64String = NSString(data: authorizationData.base64EncodedDataWithOptions(nil), encoding: NSASCIIStringEncoding) ?? ""
             self[.Authorization] = "Basic \(base64String)"
         }
     }
