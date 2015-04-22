@@ -33,7 +33,7 @@ public enum JSONValue {
     case Null
 }
 
-@objc public protocol JSONConvertible {
+public protocol JSONConvertible {
     var json: JSON { get }
 }
 
@@ -67,7 +67,7 @@ extension NSNull : JSONConvertible {
     }
 }
 
-@objc public final class JSON : Printable {
+public final class JSON : Printable {
     let value: JSONValue
     
     public class func parse(data: NSData, options: NSJSONReadingOptions, error: NSErrorPointer) -> JSON? {
