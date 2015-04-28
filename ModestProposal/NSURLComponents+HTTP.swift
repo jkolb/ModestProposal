@@ -44,12 +44,16 @@ public extension NSURLComponents {
         }
         set {
             if let parameters = newValue {
-                var items = [NSURLQueryItem]()
-                items.reserveCapacity(parameters.count)
-                for (name, value) in parameters {
-                    items.append(NSURLQueryItem(name: name, value: value))
+                if parameters.count == 0 {
+                    queryItems = nil
+                } else {
+                    var items = [NSURLQueryItem]()
+                    items.reserveCapacity(parameters.count)
+                    for (name, value) in parameters {
+                        items.append(NSURLQueryItem(name: name, value: value))
+                    }
+                    queryItems = items
                 }
-                queryItems = items
             } else {
                 queryItems = nil
             }
