@@ -2,7 +2,7 @@
 // NSMutableURLRequest+HTTP.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +63,7 @@ public extension NSURLRequest {
     }
     
     public func buildHTTP(method: String, path: String, parameters: [String:String]? = nil, body: NSData? = nil, contentType: String? = nil) -> NSMutableURLRequest {
-        let request = mutableCopy() as NSMutableURLRequest
+        let request = mutableCopy() as! NSMutableURLRequest
         request.URL = request.URL?.buildURL(path: path, parameters: parameters)
         request.HTTPMethod = method
         request.HTTPBody = body
@@ -79,7 +79,7 @@ public extension NSMutableURLRequest {
     public func basicAuthorization(# username: String, password: String, encoding: NSStringEncoding = NSUTF8StringEncoding) {
         let authorizationString = "\(username):\(password)"
         if let authorizationData = authorizationString.dataUsingEncoding(encoding, allowLossyConversion: false) {
-            let base64String = authorizationData.base64EncodedDataWithOptions(nil)
+            let base64String = NSString(data: authorizationData.base64EncodedDataWithOptions(nil), encoding: NSASCIIStringEncoding) ?? ""
             self[.Authorization] = "Basic \(base64String)"
         }
     }

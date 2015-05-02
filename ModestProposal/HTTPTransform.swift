@@ -2,7 +2,7 @@
 // HTTPTransform.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,17 +30,17 @@ public func defaultJSONTransformer(JSONData: NSData) -> Outcome<JSON, NSError> {
     var error: NSError?
     
     if let json = JSON.parse(JSONData, options: nil, error: &error) {
-        return .Success(json)
+        return Outcome(json)
     } else {
-        return .Failure(error!)
+        return Outcome(error!)
     }
 }
 
 public func defaultImageTransformer(imageData: NSData) -> Outcome<UIImage, NSError> {
     if let image = UIImage(data: imageData) {
-        return .Success(image)
+        return Outcome(image)
     } else {
-        return .Failure(NSError.invalidImageDataError())
+        return Outcome(NSError.invalidImageDataError())
     }
 }
 

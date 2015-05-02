@@ -2,7 +2,7 @@
 // URLBuildingTests.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -72,7 +72,7 @@ class URLBuildingTests: XCTestCase {
     
     func testBuildParameters() {
         assert(baseURL: "http://test.com", path: nil, parameters: nil, equals: "http://test.com")
-        assert(baseURL: "http://test.com", path: nil, parameters: [:], equals: "http://test.com?")
+        assert(baseURL: "http://test.com", path: nil, parameters: [:], equals: "http://test.com")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":""], equals: "http://test.com?test=")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":"A"], equals: "http://test.com?test=A")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":"A A"], equals: "http://test.com?test=A%20A")

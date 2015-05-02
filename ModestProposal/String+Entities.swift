@@ -2,7 +2,7 @@
 // String+Entities.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ public extension String {
         let scalars = self.unicodeScalars
         var state = State.Looking
         var unescaped = String()
-        unescaped.reserveCapacity(countElements(scalars))
+        unescaped.reserveCapacity(count(scalars))
         var name = String()
         name.reserveCapacity(longestName)
         
@@ -74,7 +74,7 @@ public extension String {
                     }
                     name.removeAll(keepCapacity: true)
                     state = .Looking
-                } else if countElements(name.unicodeScalars) >= longestName {
+                } else if count(name.unicodeScalars) >= longestName {
                     unescaped.append(ampersand)
                     unescaped.extend(name)
                     unescaped.append(scalar)

@@ -2,7 +2,7 @@
 // Validator.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@ import Foundation
 
 public class Validator {
     public struct Rule {
-        let isValid: @autoclosure () -> Bool
-        let invalid: @autoclosure () -> NSError
+        let isValid: () -> Bool
+        let invalid: () -> NSError
     }
     
     let rules: [Rule]
@@ -49,9 +49,11 @@ public class Validator {
 }
 
 public class ValidatorBuilder {
-    var rules = Array<Validator.Rule>()
+    private var rules = Array<Validator.Rule>()
     
-    public func valid(# when: @autoclosure () -> Bool, otherwise: @autoclosure () -> NSError) {
+    public init() { }
+    
+    public func valid(@autoclosure(escaping) # when: () -> Bool, @autoclosure(escaping) otherwise: () -> NSError) {
         rules.append(Validator.Rule(isValid: when, invalid: otherwise))
     }
     

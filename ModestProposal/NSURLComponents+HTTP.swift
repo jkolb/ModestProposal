@@ -2,7 +2,7 @@
 // NSURLComponents+HTTP.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -44,12 +44,16 @@ public extension NSURLComponents {
         }
         set {
             if let parameters = newValue {
-                var items = [NSURLQueryItem]()
-                items.reserveCapacity(parameters.count)
-                for (name, value) in parameters {
-                    items.append(NSURLQueryItem(name: name, value: value))
+                if parameters.count == 0 {
+                    queryItems = nil
+                } else {
+                    var items = [NSURLQueryItem]()
+                    items.reserveCapacity(parameters.count)
+                    for (name, value) in parameters {
+                        items.append(NSURLQueryItem(name: name, value: value))
+                    }
+                    queryItems = items
                 }
-                queryItems = items
             } else {
                 queryItems = nil
             }

@@ -2,7 +2,7 @@
 // Example.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,17 +34,23 @@ public class Example {
     public func fetchAll() {
         task = API.subreddit(name: "all", completion: { [weak self] (outcome) in
             if let strongSelf = self {
-                switch outcome {
-                case .Success(let resultProducer):
-                    let json = resultProducer()
-                    println(json)
-                case .Failure(let reasonProducer):
-                    let error = reasonProducer()
-                    println(error)
+                outcome.onSuccess { (json) in
+                    strongSelf.displayResult(json)
+                }
+                outcome.onFailure { (error) in
+                    strongSelf.displayError(error)
                 }
                 strongSelf.task = nil
             }
         })
+    }
+    
+    public func displayResult(json: JSON) {
+        println(json)
+    }
+    
+    public func displayError(error: NSError) {
+        println(error)
     }
 }
 
@@ -60,7 +66,7 @@ public class ExampleAPI {
     
     public init(session: NSURLSession, prototype: NSURLRequest) {
         self.session = session
-        self.prototype = prototype.copy() as NSURLRequest
+        self.prototype = prototype.copy() as! NSURLRequest
     }
 
     // MARK: - Your API
@@ -149,11 +155,11 @@ public class ExampleAPI {
     {
         return session.dataTaskWithRequest(request) { (data, response, error) in
             if error != nil {
-                completion(.Failure(error))
+                completion(Outcome(error))
             }
             
             if let validationError = validator(response) {
-                completion(.Failure(validationError))
+                completion(Outcome(validationError))
             }
             
             transform(input: data, transformer: transformer, completion)

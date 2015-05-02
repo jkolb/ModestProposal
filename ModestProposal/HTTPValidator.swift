@@ -2,7 +2,7 @@
 // HTTPValidator.swift
 // ModestProposal
 //
-// Copyright (c) 2014 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -44,18 +44,9 @@ public extension Validator {
     
     public class func HTTPResponseValidator(response: NSURLResponse, allowedStatuses: [Int], allowedContentTypes: [String]) -> Validator {
         let builder = ValidatorBuilder()
-        builder.valid(
-            when: response.isHTTP,
-            otherwise: NSError.notAnHTTPResponseError()
-        )
-        builder.valid(
-            when: response.asHTTP.matchesStatuses(allowedStatuses),
-            otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode)
-        )
-        builder.valid(
-            when: response.asHTTP.matchesContentTypes(allowedContentTypes),
-            otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType)
-        )
+        builder.valid(when: response.isHTTP, otherwise: NSError.notAnHTTPResponseError())
+        builder.valid(when: response.asHTTP.matchesStatuses(allowedStatuses), otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode))
+        builder.valid(when: response.asHTTP.matchesContentTypes(allowedContentTypes), otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType))
         return builder.build()
     }
 }
@@ -68,7 +59,7 @@ public extension NSError {
             userInfo: nil
         )
     }
-
+    
     public class func unexpectedStatusCodeError(statusCode: Int) -> NSError {
         return NSError(
             domain: HTTPResponseValidationErrorDomain,
