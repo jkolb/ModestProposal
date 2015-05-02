@@ -1,6 +1,6 @@
 # ModestProposal
 
-An HTTP Toolbox (Requires Swift 1.2 Beta 2)
+An HTTP Toolbox (Requires Swift 1.2)
 
 #### Features
 * URL building
