@@ -72,7 +72,7 @@ class URLBuildingTests: XCTestCase {
     
     func testBuildParameters() {
         assert(baseURL: "http://test.com", path: nil, parameters: nil, equals: "http://test.com")
-        assert(baseURL: "http://test.com", path: nil, parameters: [:], equals: "http://test.com?")
+        assert(baseURL: "http://test.com", path: nil, parameters: [:], equals: "http://test.com")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":""], equals: "http://test.com?test=")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":"A"], equals: "http://test.com?test=A")
         assert(baseURL: "http://test.com", path: nil, parameters: ["test":"A A"], equals: "http://test.com?test=A%20A")

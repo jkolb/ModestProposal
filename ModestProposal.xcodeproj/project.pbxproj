@@ -45,7 +45,6 @@
 		E50296631A45223000B79BDE /* NSData+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296611A45223000B79BDE /* NSData+String.swift */; };
 		E50296641A45223000B79BDE /* NSURLSessionConfiguration+NoCookies.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296621A45223000B79BDE /* NSURLSessionConfiguration+NoCookies.swift */; };
 		E5F495F719DCA80B00B80DB4 /* ModestProposal.h in Headers */ = {isa = PBXBuildFile; fileRef = E5F495F619DCA80B00B80DB4 /* ModestProposal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E5F495FD19DCA80B00B80DB4 /* ModestProposal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F495F119DCA80B00B80DB4 /* ModestProposal.framework */; };
 		E5F4960E19DCA82C00B80DB4 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F4960D19DCA82C00B80DB4 /* JSON.swift */; };
 		E5F4960F19DCA82C00B80DB4 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F4960D19DCA82C00B80DB4 /* JSON.swift */; };
 /* End PBXBuildFile section */
@@ -103,7 +102,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5F495FD19DCA80B00B80DB4 /* ModestProposal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
