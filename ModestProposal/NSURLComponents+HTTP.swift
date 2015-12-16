@@ -1,8 +1,4 @@
-//
-// NSURLComponents+HTTP.swift
-// ModestProposal
-//
-// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2016 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,41 +17,33 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
 
 import Foundation
 
 public extension NSURLComponents {
-    public var parameters: [String:String]? {
+    public var parameters: [String:String] {
         get {
-            // Assumes query string does not have duplicate names! Any duplicates will be ignored.
-            if let items = queryItems as? [NSURLQueryItem] {
+            // Assumes query string does not have duplicate names! Last duplicate processed will overwrite any prior values.
+            if let items = queryItems {
                 var parameters = [String:String](minimumCapacity: items.count)
                 for item in items {
-                    if let existing = parameters[item.name] {
-                        continue // Prevent crash when there are duplicate keys
-                    }
                     parameters[item.name] = item.value
                 }
                 return parameters
             } else {
-                return nil
+                return [:]
             }
         }
         set {
-            if let parameters = newValue {
-                if parameters.count == 0 {
-                    queryItems = nil
-                } else {
-                    var items = [NSURLQueryItem]()
-                    items.reserveCapacity(parameters.count)
-                    for (name, value) in parameters {
-                        items.append(NSURLQueryItem(name: name, value: value))
-                    }
-                    queryItems = items
-                }
-            } else {
+            if newValue.count == 0 {
                 queryItems = nil
+            } else {
+                var items = [NSURLQueryItem]()
+                items.reserveCapacity(newValue.count)
+                for (name, value) in newValue {
+                    items.append(NSURLQueryItem(name: name, value: value))
+                }
+                queryItems = items
             }
         }
     }

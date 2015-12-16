@@ -1,8 +1,4 @@
-//
-// NSURL+HTTP.swift
-// ModestProposal
-//
-// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2016 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,21 +17,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
 
 import Foundation
 
 public extension NSURL {
-    public func buildURL(# path: String?, parameters: [String:String]? = nil) -> NSURL? {
+    public func relativeToPath(path: String, parameters: [String:String] = [:]) -> NSURL {
         let components = NSURLComponents()
         components.percentEncodedPath = path
         components.parameters = parameters
-        return components.URLRelativeToURL(self)
+        return components.URLRelativeToURL(self)!
     }
     
-    public var parameters: [String:String]? {
+    public var parameters: [String:String] {
         let components = NSURLComponents()
         components.percentEncodedQuery = query
-        return components.parameters
+        return components.parameters ?? [:]
     }
 }

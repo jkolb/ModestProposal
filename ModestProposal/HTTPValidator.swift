@@ -1,8 +1,4 @@
-//
-// HTTPValidator.swift
-// ModestProposal
-//
-// Copyright (c) 2015 Justin Kolb - http://franticapparatus.net
+// Copyright (c) 2016 Justin Kolb - http://franticapparatus.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,75 +17,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
 
 import Foundation
 
 public extension Validator {
     public class func defaultJSONResponseValidator(response: NSURLResponse) -> Validator {
         let builder = ValidatorBuilder()
-        builder.valid(when: response.isHTTP, otherwise: NSError.notAnHTTPResponseError())
-        builder.valid(when: response.asHTTP.isSuccessful, otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode))
-        builder.valid(when: response.asHTTP.isJSON, otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType))
+        builder.valid(when: response.isHTTP, otherwise: HTTPError.UnexpectedResponse(response))
+        builder.valid(when: response.HTTP.isSuccessful, otherwise: HTTPError.UnexpectedStatusCode(response.HTTP.statusCode))
+        builder.valid(when: response.HTTP.isJSON, otherwise: HTTPError.UnexpectedContentType(response.HTTP.MIMEType))
         return builder.build()
     }
     
     public class func defaultImageResponseValidator(response: NSURLResponse) -> Validator {
         let builder = ValidatorBuilder()
-        builder.valid(when: response.isHTTP, otherwise: NSError.notAnHTTPResponseError())
-        builder.valid(when: response.asHTTP.isSuccessful, otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode))
-        builder.valid(when: response.asHTTP.isImage, otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType))
+        builder.valid(when: response.isHTTP, otherwise: HTTPError.UnexpectedResponse(response))
+        builder.valid(when: response.HTTP.isSuccessful, otherwise: HTTPError.UnexpectedStatusCode(response.HTTP.statusCode))
+        builder.valid(when: response.HTTP.isImage, otherwise: HTTPError.UnexpectedContentType(response.HTTP.MIMEType))
         return builder.build()
     }
     
     public class func HTTPResponseValidator(response: NSURLResponse, allowedStatuses: [Int], allowedContentTypes: [String]) -> Validator {
         let builder = ValidatorBuilder()
-        builder.valid(when: response.isHTTP, otherwise: NSError.notAnHTTPResponseError())
-        builder.valid(when: response.asHTTP.matchesStatuses(allowedStatuses), otherwise: NSError.unexpectedStatusCodeError(response.asHTTP.statusCode))
-        builder.valid(when: response.asHTTP.matchesContentTypes(allowedContentTypes), otherwise: NSError.unexpectedContentTypeError(response.asHTTP.MIMEType))
+        builder.valid(when: response.isHTTP, otherwise: HTTPError.UnexpectedResponse(response))
+        builder.valid(when: response.HTTP.matchesStatuses(allowedStatuses), otherwise: HTTPError.UnexpectedStatusCode(response.HTTP.statusCode))
+        builder.valid(when: response.HTTP.matchesContentTypes(allowedContentTypes), otherwise: HTTPError.UnexpectedContentType(response.HTTP.MIMEType))
         return builder.build()
     }
 }
 
-public extension NSError {
-    public class func notAnHTTPResponseError() -> NSError {
-        return NSError(
-            domain: HTTPResponseValidationErrorDomain,
-            code: HTTPResponseValidationNotAnHTTPResponseErrorCode,
-            userInfo: nil
-        )
-    }
-    
-    public class func unexpectedStatusCodeError(statusCode: Int) -> NSError {
-        return NSError(
-            domain: HTTPResponseValidationErrorDomain,
-            code: HTTPResponseValidationUnexpectedStatusCodeErrorCode,
-            userInfo: ["statusCode": statusCode]
-        )
-    }
-    
-    public class func unexpectedContentTypeError(contentType: String?) -> NSError {
-        return NSError(
-            domain: HTTPResponseValidationErrorDomain,
-            code: HTTPResponseValidationUnexpectedContentTypeErrorCode,
-            userInfo: ["contentType": contentType ?? ""]
-        )
-    }
-    
-    public var isNotAnHTTPResponseError: Bool {
-        return domain == HTTPResponseValidationErrorDomain && code == HTTPResponseValidationNotAnHTTPResponseErrorCode
-    }
-    
-    public var isUnexpectedStatusCodeError: Bool {
-        return domain == HTTPResponseValidationErrorDomain && code == HTTPResponseValidationUnexpectedStatusCodeErrorCode
-    }
-    
-    public var isUnexpectedContentTypeError: Bool {
-        return domain == HTTPResponseValidationErrorDomain && code == HTTPResponseValidationUnexpectedContentTypeErrorCode
-    }
+public enum HTTPError : ErrorType {
+    case UnexpectedResponse(NSURLResponse)
+    case UnexpectedStatusCode(Int)
+    case UnexpectedContentType(String?)
 }
-
-public let HTTPResponseValidationErrorDomain = "net.franticapparatus.HTTPResponseValidationErrorDomain"
-public let HTTPResponseValidationNotAnHTTPResponseErrorCode = 100
-public let HTTPResponseValidationUnexpectedStatusCodeErrorCode = 200
-public let HTTPResponseValidationUnexpectedContentTypeErrorCode = 300
