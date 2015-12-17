@@ -33,8 +33,8 @@ public extension NSURLRequest {
         return POST(path: path, body: try! NSJSONSerialization.dataWithJSONObject(JSONObject, options: []), mediaType: .ApplicationJSON)
     }
     
-    public func POST(path path: String, parameters: [String:String] = [:], encoding: UInt = NSUTF8StringEncoding) -> NSMutableURLRequest {
-        return POST(path: path, body: NSData.formURLEncode(parameters, encoding: encoding), mediaType: .ApplicationXWWWFormURLEncoded)
+    public func POST(path path: String, parameters: [String:String] = [:], encoding: NSStringEncoding = NSUTF8StringEncoding) -> NSMutableURLRequest {
+        return POST(path: path, body: NSData.formURLEncodeParameters(parameters, encoding: encoding), mediaType: .ApplicationXWWWFormURLEncoded)
     }
     
     public func POST(path path: String, body: NSData? = nil, mediaType: HTTPMediaType? = .ApplicationOctetStream) -> NSMutableURLRequest {
@@ -46,7 +46,7 @@ public extension NSURLRequest {
     }
 
     public func PUT(path path: String, parameters: [String:String] = [:], encoding: NSStringEncoding = NSUTF8StringEncoding) -> NSMutableURLRequest {
-        return PUT(path: path, body: NSData.formURLEncode(parameters, encoding: encoding), mediaType: .ApplicationXWWWFormURLEncoded)
+        return PUT(path: path, body: NSData.formURLEncodeParameters(parameters, encoding: encoding), mediaType: .ApplicationXWWWFormURLEncoded)
     }
     
     public func PUT(path path: String, body: NSData? = nil, mediaType: HTTPMediaType? = nil) -> NSMutableURLRequest {
@@ -68,13 +68,20 @@ public extension NSURLRequest {
     }
 }
 
+public enum AuthenticationError : ErrorType {
+    case UnableToEncodeAuthorizationString
+}
+
 public extension NSMutableURLRequest {
-    public func basicAuthorization(username username: String, password: String, encoding: NSStringEncoding = NSUTF8StringEncoding) {
+    public func basicAuthorization(username username: String, password: String, encoding: NSStringEncoding = NSUTF8StringEncoding) throws {
         let authorizationString = "\(username):\(password)"
-        if let authorizationData = authorizationString.dataUsingEncoding(encoding, allowLossyConversion: false) {
-            let base64String = NSString(data: authorizationData.base64EncodedDataWithOptions([]), encoding: NSASCIIStringEncoding) ?? ""
-            self[.Authorization] = "Basic \(base64String)"
+        
+        guard let authorizationData = authorizationString.dataUsingEncoding(encoding, allowLossyConversion: false) else {
+            throw AuthenticationError.UnableToEncodeAuthorizationString
         }
+        
+        let base64String = authorizationData.base64EncodedStringWithOptions([])
+        self[.Authorization] = "Basic \(base64String)"
     }
 
     public var method : HTTPRequestMethod? {

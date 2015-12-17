@@ -20,10 +20,7 @@
 		E50296481A44D6E900B79BDE /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296471A44D6E900B79BDE /* HTTPStatusCode.swift */; };
 		E502964B1A44D77A00B79BDE /* HTTPMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E502964A1A44D77A00B79BDE /* HTTPMediaType.swift */; };
 		E50296501A44E44E00B79BDE /* String+NSData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E502964E1A44E44E00B79BDE /* String+NSData.swift */; };
-		E50296521A44E7D600B79BDE /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296511A44E7D600B79BDE /* Validator.swift */; };
-		E50296581A44FE3400B79BDE /* HTTPValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296571A44FE3400B79BDE /* HTTPValidator.swift */; };
 		E50296631A45223000B79BDE /* NSData+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296611A45223000B79BDE /* NSData+String.swift */; };
-		E50296641A45223000B79BDE /* NSURLSessionConfiguration+NoCookies.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50296621A45223000B79BDE /* NSURLSessionConfiguration+NoCookies.swift */; };
 		E5F495F719DCA80B00B80DB4 /* ModestProposal.h in Headers */ = {isa = PBXBuildFile; fileRef = E5F495F619DCA80B00B80DB4 /* ModestProposal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -51,10 +48,7 @@
 		E50296471A44D6E900B79BDE /* HTTPStatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCode.swift; sourceTree = "<group>"; };
 		E502964A1A44D77A00B79BDE /* HTTPMediaType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMediaType.swift; sourceTree = "<group>"; };
 		E502964E1A44E44E00B79BDE /* String+NSData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NSData.swift"; sourceTree = "<group>"; };
-		E50296511A44E7D600B79BDE /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
-		E50296571A44FE3400B79BDE /* HTTPValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPValidator.swift; sourceTree = "<group>"; };
 		E50296611A45223000B79BDE /* NSData+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+String.swift"; sourceTree = "<group>"; };
-		E50296621A45223000B79BDE /* NSURLSessionConfiguration+NoCookies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSessionConfiguration+NoCookies.swift"; sourceTree = "<group>"; };
 		E576FFB41C21DD2400F7D66D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		E576FFB61C21DD2C00F7D66D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E5F495F119DCA80B00B80DB4 /* ModestProposal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ModestProposal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,17 +105,14 @@
 				E502963E1A44D1F100B79BDE /* HTTPRequestMethod.swift */,
 				E50296441A44D69600B79BDE /* HTTPResponseField.swift */,
 				E50296471A44D6E900B79BDE /* HTTPStatusCode.swift */,
-				E50296571A44FE3400B79BDE /* HTTPValidator.swift */,
 				E50296271A44C27E00B79BDE /* NSData+HTTP.swift */,
 				E50296611A45223000B79BDE /* NSData+String.swift */,
 				E50296281A44C27E00B79BDE /* NSURL+HTTP.swift */,
 				E50296291A44C27E00B79BDE /* NSURLComponents+HTTP.swift */,
 				E502962A1A44C27E00B79BDE /* NSURLRequest+HTTP.swift */,
 				E502963B1A44C75D00B79BDE /* NSURLResponse+HTTP.swift */,
-				E50296621A45223000B79BDE /* NSURLSessionConfiguration+NoCookies.swift */,
 				E502964E1A44E44E00B79BDE /* String+NSData.swift */,
 				E502962B1A44C27E00B79BDE /* Utility.swift */,
-				E50296511A44E7D600B79BDE /* Validator.swift */,
 				E5F495F419DCA80B00B80DB4 /* Supporting Files */,
 			);
 			path = ModestProposal;
@@ -263,13 +254,10 @@
 				E50296421A44D63D00B79BDE /* HTTPRequestField.swift in Sources */,
 				E50296321A44C27E00B79BDE /* NSURLComponents+HTTP.swift in Sources */,
 				E502964B1A44D77A00B79BDE /* HTTPMediaType.swift in Sources */,
-				E50296581A44FE3400B79BDE /* HTTPValidator.swift in Sources */,
-				E50296641A45223000B79BDE /* NSURLSessionConfiguration+NoCookies.swift in Sources */,
 				E502963C1A44C75D00B79BDE /* NSURLResponse+HTTP.swift in Sources */,
 				E502962E1A44C27E00B79BDE /* NSData+HTTP.swift in Sources */,
 				E50296301A44C27E00B79BDE /* NSURL+HTTP.swift in Sources */,
 				E502963F1A44D1F100B79BDE /* HTTPRequestMethod.swift in Sources */,
-				E50296521A44E7D600B79BDE /* Validator.swift in Sources */,
 				E50296481A44D6E900B79BDE /* HTTPStatusCode.swift in Sources */,
 				E50296341A44C27E00B79BDE /* NSURLRequest+HTTP.swift in Sources */,
 				E50296631A45223000B79BDE /* NSData+String.swift in Sources */,

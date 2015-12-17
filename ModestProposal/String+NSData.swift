@@ -21,7 +21,7 @@
 import Foundation
 
 public extension String {
-    public var UTF8Data: NSData? {
-        return dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+    public var UTF8Data: NSData {
+        return dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
     }
 }

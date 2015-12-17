@@ -21,7 +21,7 @@
 import Foundation
 
 public extension NSData {
-    public class func formURLEncode(parameters: [String:String], encoding: NSStringEncoding = NSUTF8StringEncoding) -> NSData? {
+    public class func formURLEncodeParameters(parameters: [String:String], encoding: NSStringEncoding = NSUTF8StringEncoding) -> NSData? {
         let components = NSURLComponents()
         components.parameters = parameters
         return components.query?.dataUsingEncoding(encoding, allowLossyConversion: false)

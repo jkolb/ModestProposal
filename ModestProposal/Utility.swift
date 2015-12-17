@@ -18,53 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
-
-public class Value<T> {
-    public let unwrap: T
-    
-    public init(_ value: T) {
-        self.unwrap = value
-    }
-}
-
-public enum Outcome<Result, Reason> {
-    case Success(Value<Result>)
-    case Failure(Value<Reason>)
-    
-    public init(_ result: Result) {
-        self = .Success(Value(result))
-    }
-    
-    public init(_ reason: Reason) {
-        self = .Failure(Value(reason))
-    }
-    
-    public func onSuccess(@noescape handler: (Result) -> ()) {
-        switch self {
-        case .Success(let value):
-            handler(value.unwrap)
-        default:
-            return
-        }
-    }
-    
-    public func onFailure(@noescape handler: (Reason) -> ()) {
-        switch self {
-        case .Failure(let value):
-            handler(value.unwrap)
-        default:
-            return
-        }
-    }
-}
-
 public func rawValues<T : RawRepresentable>(rawRepresentables: [T]) -> [T.RawValue] {
-    var rawValues = Array<T.RawValue>()
+    return rawRepresentables.map { $0.rawValue }
+}
 
-    for rawRepresentable in rawRepresentables {
-        rawValues.append(rawRepresentable.rawValue)
-    }
-    
-    return rawValues
+public func validate(@autoclosure when when: () -> Bool, @autoclosure otherwise: () -> ErrorType) throws {
+    if !when() { throw otherwise() }
 }

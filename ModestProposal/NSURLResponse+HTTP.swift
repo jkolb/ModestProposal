@@ -20,6 +20,12 @@
 
 import Foundation
 
+public enum HTTPError : ErrorType {
+    case UnexpectedResponse(NSURLResponse)
+    case UnexpectedStatusCode(Int)
+    case UnexpectedContentType(String?)
+}
+
 public extension NSURLResponse {
     public var isHTTP : Bool {
         return self is NSHTTPURLResponse
@@ -27,6 +33,36 @@ public extension NSURLResponse {
     
     public var HTTP : NSHTTPURLResponse {
         return self as! NSHTTPURLResponse
+    }
+    
+    public func validateIsHTTP(statusCode statusCode: Int, contentType: String) throws {
+        try validate(when: isHTTP, otherwise: HTTPError.UnexpectedResponse(self))
+        try validate(when: HTTP.statusCode == statusCode, otherwise: HTTPError.UnexpectedStatusCode(HTTP.statusCode))
+        try validate(when: HTTP.MIMEType == contentType, otherwise: HTTPError.UnexpectedContentType(HTTP.MIMEType))
+    }
+    
+    public func validateIsHTTP(statusCode statusCode: Int, contentType: HTTPMediaType) throws {
+        try validate(when: isHTTP, otherwise: HTTPError.UnexpectedResponse(self))
+        try validate(when: HTTP.statusCode == statusCode, otherwise: HTTPError.UnexpectedStatusCode(HTTP.statusCode))
+        try validate(when: HTTP.MIMEType == contentType.rawValue, otherwise: HTTPError.UnexpectedContentType(HTTP.MIMEType))
+    }
+    
+    public func validateIsHTTP(statusCode statusCode: HTTPStatusCode, contentType: HTTPMediaType) throws {
+        try validate(when: isHTTP, otherwise: HTTPError.UnexpectedResponse(self))
+        try validate(when: HTTP.statusCode == statusCode.rawValue, otherwise: HTTPError.UnexpectedStatusCode(HTTP.statusCode))
+        try validate(when: HTTP.MIMEType == contentType.rawValue, otherwise: HTTPError.UnexpectedContentType(HTTP.MIMEType))
+    }
+    
+    public func validateIsSuccessfulJSON() throws {
+        try validate(when: isHTTP, otherwise: HTTPError.UnexpectedResponse(self))
+        try validate(when: HTTP.isSuccessful, otherwise: HTTPError.UnexpectedStatusCode(HTTP.statusCode))
+        try validate(when: HTTP.isJSON, otherwise: HTTPError.UnexpectedContentType(HTTP.MIMEType))
+    }
+    
+    public func validateIsSuccessfulImage() throws {
+        try validate(when: isHTTP, otherwise: HTTPError.UnexpectedResponse(self))
+        try validate(when: HTTP.isSuccessful, otherwise: HTTPError.UnexpectedStatusCode(HTTP.statusCode))
+        try validate(when: HTTP.isImage, otherwise: HTTPError.UnexpectedContentType(HTTP.MIMEType))
     }
 }
 
