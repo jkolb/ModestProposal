@@ -1,27 +1,15 @@
-// Copyright (c) 2016 Justin Kolb - http://franticapparatus.net
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//  ModestProposalTests.swift
+//  ModestProposalTests
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+//  Created by Justin Kolb on 12/17/15.
+//  Copyright © 2015 Justin Kolb. All rights reserved.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
 
 import XCTest
 @testable import ModestProposal
 
-class URLBuildingTests: XCTestCase {
+class ModestProposalTests: XCTestCase {
     func testBuildPaths() {
         assert(baseURL: "http://test.com", path: "", parameters: [:], equals: "http://test.com")
         assert(baseURL: "http://test.com", path: "test", parameters: [:], equals: "http://test.com/test")
@@ -46,7 +34,7 @@ class URLBuildingTests: XCTestCase {
         assert(baseURL: "http://test.com/test/", path: "A/", parameters: [:], equals: "http://test.com/test/A/")
         assert(baseURL: "http://test.com/test/", path: "A", parameters: [:], equals: "http://test.com/test/A")
         assert(baseURL: "http://test.com/test/", path: "A/", parameters: [:], equals: "http://test.com/test/A/")
-
+        
         assert(baseURL: "http://test.com/test%20A/", path: "", parameters: [:], equals: "http://test.com/test%20A/")
         assert(baseURL: "http://test.com/test%20A/", path: "A", parameters: [:], equals: "http://test.com/test%20A/A")
         assert(baseURL: "http://test.com/test%20A/", path: "A/", parameters: [:], equals: "http://test.com/test%20A/A/")
@@ -66,7 +54,7 @@ class URLBuildingTests: XCTestCase {
         assert(baseURL: "http://test.com", path: "", parameters: ["test":"A"], equals: "http://test.com?test=A")
         assert(baseURL: "http://test.com", path: "", parameters: ["test":"A A"], equals: "http://test.com?test=A%20A")
     }
-
+    
     func testRetrieveParameters() {
         assert(URL: "http://test.com", expected: [:])
         assert(URL: "http://test.com?", expected: [:])

@@ -1,4 +1,4 @@
-# ModestProposal
+# ModestProposal 2.0
 
 Makes building HTTP URLs and requests easy. Can be used with any networking library that accepts NSURLRequest as a parameter.
 

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E5F495F019DCA80B00B80DB4"
+               BlueprintIdentifier = "E5A36AEE1C2318E90073546B"
                BuildableName = "ModestProposal.framework"
                BlueprintName = "ModestProposal"
                ReferencedContainer = "container:ModestProposal.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E5F495FB19DCA80B00B80DB4"
+               BlueprintIdentifier = "E5A36AF81C2318E90073546B"
                BuildableName = "ModestProposalTests.xctest"
                BlueprintName = "ModestProposalTests"
                ReferencedContainer = "container:ModestProposal.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E5F495F019DCA80B00B80DB4"
+            BlueprintIdentifier = "E5A36AEE1C2318E90073546B"
             BuildableName = "ModestProposal.framework"
             BlueprintName = "ModestProposal"
             ReferencedContainer = "container:ModestProposal.xcodeproj">
@@ -64,7 +64,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E5F495F019DCA80B00B80DB4"
+            BlueprintIdentifier = "E5A36AEE1C2318E90073546B"
             BuildableName = "ModestProposal.framework"
             BlueprintName = "ModestProposal"
             ReferencedContainer = "container:ModestProposal.xcodeproj">
@@ -82,7 +82,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E5F495F019DCA80B00B80DB4"
+            BlueprintIdentifier = "E5A36AEE1C2318E90073546B"
             BuildableName = "ModestProposal.framework"
             BlueprintName = "ModestProposal"
             ReferencedContainer = "container:ModestProposal.xcodeproj">
